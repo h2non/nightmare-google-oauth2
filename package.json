@@ -1,0 +1,40 @@
+{
+  "name": "nightmare-google-oauth2",
+  "description": "Nightmare plugin to automatically authenticate, authorize and retrieve a fresh token for Google APIs using OAuth2",
+  "version": "0.1.0",
+  "repository": "h2non/nightmare-google-oauth2",
+  "license": "MIT",
+  "author": "Tomas Aparicio",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "./node_modules/_bin/mocha --timeout 30000 --reporter spec --ui tdd"
+  },
+  "dependencies": {
+    "decamelize": "^1.0.0",
+    "lodash.omit": "^3.0.0",
+    "merge": "^1.2.0",
+    "request": "^2.53.0",
+    "yargs": "^3.4.5"
+  },
+  "peerDependencies": {
+    "nightmare": "^1.7.0"
+  },
+  "devDependencies": {
+    "chai": "^2.1.0",
+    "mocha": "^2.1.0"
+  },
+  "keywords": [
+    "nightmare",
+    "nightmareplugin",
+    "phantomjs",
+    "googleapis",
+    "google",
+    "oauth",
+    "oauth2",
+    "token",
+    "authentication",
+    "auth"
+  ]
+}
