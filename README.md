@@ -1,6 +1,6 @@
 # nightmare-google-oauth2 [![Build Status](https://api.travis-ci.org/h2non/nightmare-google-oauth2.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/nightmare-google-oauth2.svg)][npm]
 
-[Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to be used with [Google APIs](https://developers.google.com/apis-explorer)
+[Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to call [Google APIs](https://developers.google.com/apis-explorer)
 
 This package was designed to simplify server-to-server tasks automation and avoid headaches when dealing with OAuth, 
 since it the [unique method](https://developers.google.com/youtube/v3/guides/authentication#OAuth2_Flows) to perform most of the write operations via Google APIs
