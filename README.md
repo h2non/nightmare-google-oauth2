@@ -1,4 +1,4 @@
-# nightmare-google-oauth2 [![Build Status](https://api.travis-ci.org/h2non/nightmare-google-oauth2.svg?branch=master)][travis] [![NPM version](https://badge.fury.io/js/nightmare-google-oauth2.png)][npm]
+# nightmare-google-oauth2 [![Build Status](https://api.travis-ci.org/h2non/nightmare-google-oauth2.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/nightmare-google-oauth2.svg)][npm]
 
 [Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh valid [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to be used with [Google APIs](https://developers.google.com/apis-explorer)
 
