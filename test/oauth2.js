@@ -10,7 +10,7 @@ suite('google auth2', function () {
   })
 
   test('#getCode', function (done) {
-    if (process.env.CI) { done() }
+    if (process.env.CI) return done()
 
     var params = {
       scope: 'https://www.googleapis.com/auth/youtube',
@@ -30,7 +30,7 @@ suite('google auth2', function () {
   })
 
   test('#getToken', function (done) {
-    if (process.env.CI) { done() }
+    if (process.env.CI) return done()
 
     var params = {
       scope: 'https://www.googleapis.com/auth/youtube',
