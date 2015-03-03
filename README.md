@@ -42,11 +42,11 @@ var NightmareOAuth2 = require('nightmare-google-oauth2')
 - **password** - Google Account user password. Be aware with this. Use a temporal environment variable to store it
 - **clientId** - Google API Client ID. You can obtain it from the [Google API Console][console]
 - **clientSecret** - Google API Client Secret ID. You can obtain it from the [Google API Console][console]
-- **scope** - Scope permissions URLs separated by spaces. Read more from [here](https://developers.google.com/discovery/v1/using#discovery-doc-methods-scopes)
+- **scope** - Scope permissions URLs separated by spaces. Read more [here](https://developers.google.com/discovery/v1/using#discovery-doc-methods-scopes)
 
 #### .getToken(params, callback)
 
-Return an `object` with valid OAuth2 tokens ready to be used when calling to Google APIs
+Return an `object` with valid OAuth2 tokens ready to be used to call Google APIs endpoints
 
 ```js
 { 
