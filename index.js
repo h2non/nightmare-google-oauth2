@@ -25,7 +25,7 @@ var getCode = exports.getCode = function (params, callback) {
       .wait()
       .goto(url)
       .wait('#submit_approve_access')
-      .wait(5000)
+      .wait(1500)
       .click('#submit_approve_access')
       .wait()
   }

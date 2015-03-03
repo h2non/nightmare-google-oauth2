@@ -10,6 +10,8 @@ suite('google auth2', function () {
   })
 
   test('#getCode', function (done) {
+    if (process.env.CI) { done() }
+
     var params = {
       scope: 'https://www.googleapis.com/auth/youtube',
       clientId: process.env.NIGHTMARE_OAUTH2_CLIENT_ID,
@@ -28,6 +30,8 @@ suite('google auth2', function () {
   })
 
   test('#getToken', function (done) {
+    if (process.env.CI) { done() }
+
     var params = {
       scope: 'https://www.googleapis.com/auth/youtube',
       clientId: process.env.NIGHTMARE_OAUTH2_CLIENT_ID,
