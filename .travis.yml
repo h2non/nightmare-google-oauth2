@@ -3,5 +3,5 @@ node_js:
   - "0.10"
   - "0.12"
   - iojs
-after_install:
+before_install:
   - npm install nightmare
