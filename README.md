@@ -7,7 +7,7 @@ since it the [unique method](https://developers.google.com/youtube/v3/guides/aut
 
 It provides a simple and reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually done manually from the user in the web browser
 
-For command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
+For nightware-agnostic interface and command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
 
 ## Installation
 
