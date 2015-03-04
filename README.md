@@ -4,7 +4,7 @@
 
 This package was designed to simplify server-to-server tasks automation and avoid headaches when dealing with OAuth, since it is the [unique method](https://developers.google.com/youtube/v3/guides/authentication#OAuth2_Flows) to perform most of the user-related write operations via Google APIs, such as creating a post in Blogspot or uploading a video to YouTube
 
-It provides a simple and reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually done manually from the user in the web browser
+It provides a simple and reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually performed manually by the user in a web browser
 
 For nightware-agnostic interface and command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
 
