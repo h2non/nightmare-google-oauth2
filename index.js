@@ -115,6 +115,8 @@ function buildUrl(options) {
   var params = defineDefaultParams(options)
 
   var query = Object.keys(params).map(function (key) {
+    if (key === 'useAccount') return ''
+
     return key + '=' + encodeURIComponent(params[key])
   }).join('&')
 
