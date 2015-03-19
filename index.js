@@ -78,6 +78,7 @@ var getToken = exports.getToken = function (params, callback) {
         err.code = tokens.error
         tokens = null
       }
+
       callback(err, tokens)
     }
   })
@@ -115,8 +116,6 @@ function buildUrl(options) {
   var params = defineDefaultParams(options)
 
   var query = Object.keys(params).map(function (key) {
-    if (key === 'useAccount') return ''
-
     return key + '=' + encodeURIComponent(params[key])
   }).join('&')
 
@@ -132,14 +131,13 @@ function defineDefaultParams(params) {
   if (!params.access_type) {
     params.access_type = 'offline'
   }
-
   params.response_type = 'code'
 
   return omitPrivateParams(params)
 }
 
 function omitPrivateParams(params) {
-  return omit(params, 'email', 'password', 'client_secret')
+  return omit(params, 'email', 'password', 'client_secret', 'use_account')
 }
 
 function validate(params) {
