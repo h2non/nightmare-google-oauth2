@@ -1,14 +1,13 @@
 # nightmare-google-oauth2 [![Build Status](https://api.travis-ci.org/h2non/nightmare-google-oauth2.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/nightmare-google-oauth2.svg)][npm]
 
-[Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to be used with [Google APIs](https://developers.google.com/apis-explorer)
+[Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to use with [Google APIs](https://developers.google.com/apis-explorer)
 
-This package was designed to simplify server-to-server tasks automation and avoid headaches when dealing with OAuth, 
-since it the [unique method](https://developers.google.com/youtube/v3/guides/authentication#OAuth2_Flows) to perform most of the write operations via Google APIs
+This package was designed to simplify server-to-server tasks automation and avoid headaches when dealing with OAuth, since it is the [unique method](https://developers.google.com/youtube/v3/guides/authentication#OAuth2_Flows) to perform most of the user-related write operations via Google APIs, such as creating a post in Blogspot or uploading a video to YouTube
 
 It provides reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually done manually from the user in the web browser. 
 It support multiple associated Google accounts as well, selecting the desired one
 
-For command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
+For nightware-agnostic interface and command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
 
 ## Installation
 
