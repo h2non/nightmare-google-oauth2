@@ -24,15 +24,29 @@ var getCode = exports.getCode = function (params, callback) {
       .click('input[type=submit]')
       .wait()
       .goto(url)
-      .wait('#submit_approve_access')
-      .wait(1500)
-      .click('#submit_approve_access')
       .wait()
+      .exists('#signin-action', handleAccess)
+
+    function handleAccess(exists) {
+      var account = params.useAccount || ''
+
+      if (exists) {
+        nightmare
+          .wait(500)
+          .click('#account-' + account + ' > a')
+      }
+
+      nightmare
+        .wait('#submit_approve_access')
+        .wait(1500)
+        .click('#submit_approve_access')
+        .wait()
+    }
   }
 }
 
 var getToken = exports.getToken = function (params, callback) {
-  return getCode(params, function getToken(err, code) {
+  return getCode(params, function (err, code) {
     if (err) return callback(err)
 
     if (!params.clientSecret) {
@@ -52,7 +66,9 @@ var getToken = exports.getToken = function (params, callback) {
       uri: GOOGLE_OAUTH2_TOKEN_URL,
       form: values,
       json: true
-    }, function (err, res, tokens) {
+    }, handler)
+
+    function handler(err, res, tokens) {
       if (!err && tokens && tokens.expires_in) {
         tokens.expiry_date = ((new Date()).getTime() + (tokens.expires_in * 1000))
         tokens = omit(tokens, 'expires_in')
@@ -63,7 +79,7 @@ var getToken = exports.getToken = function (params, callback) {
         tokens = null
       }
       callback(err, tokens)
-    })
+    }
   })
 }
 
@@ -91,7 +107,7 @@ function startCallbackServer(callback) {
       if (server) {
         server.close()
       }
-    }, 15 * 1000)
+    }, 20 * 1000)
   })
 }
 

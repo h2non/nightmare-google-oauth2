@@ -5,7 +5,8 @@
 This package was designed to simplify server-to-server tasks automation and avoid headaches when dealing with OAuth, 
 since it the [unique method](https://developers.google.com/youtube/v3/guides/authentication#OAuth2_Flows) to perform most of the write operations via Google APIs
 
-It provides a simple and reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually done manually from the user in the web browser
+It provides reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually done manually from the user in the web browser. 
+It support multiple associated Google accounts as well, selecting the desired one
 
 For command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
 
@@ -25,7 +26,7 @@ Then you must add the following URI as allowed redirects (without final slash):
 http://localhost:8488
 ```
 
-Then you should see something like:
+Then you should see something like this:
 
 <img src="http://oi59.tinypic.com/2w3udmd.jpg" />
 
@@ -43,6 +44,7 @@ var NightmareOAuth2 = require('nightmare-google-oauth2')
 - **clientId** - Google API Client ID. You can obtain it from the [Google API Console][console]
 - **clientSecret** - Google API Client Secret ID. You can obtain it from the [Google API Console][console]
 - **scope** - Scope permissions URLs separated by spaces. Read more [here](https://developers.google.com/discovery/v1/using#discovery-doc-methods-scopes)
+- **useAccount** - In case of multiple associated Google accounts, define the email of the desired account to use
 
 #### .getToken(params, callback)
 
