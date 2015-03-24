@@ -73,6 +73,7 @@ var getToken = exports.getToken = function (params, callback) {
         tokens.expiry_date = ((new Date()).getTime() + (tokens.expires_in * 1000))
         tokens = omit(tokens, 'expires_in')
       }
+      
       if (!err && tokens.error) {
         err = new Error(tokens.error_description)
         err.code = tokens.error
@@ -107,6 +108,7 @@ function startCallbackServer(callback) {
     setTimeout(function () {
       if (server) {
         server.close()
+        callback(new Error('Cannot retrieve the token. Timeout exceeded'))
       }
     }, 20 * 1000)
   })
