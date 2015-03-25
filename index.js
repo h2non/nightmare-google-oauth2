@@ -168,8 +168,8 @@ function missingParam(name) {
 function once(fn) {
   var one = true
   return function () {
-    if (call) {
-      call = false
+    if (one) {
+      one = false
       fn.apply(null, arguments)
     }
   }
