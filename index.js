@@ -160,3 +160,14 @@ function normalize(params) {
 function missingParam(name) {
   return new TypeError('Missing required param: ' + name)
 }
+
+function once(fn) {
+  var one = true
+  return function () {
+    if (call) {
+      call = false
+      fn.apply(null, arguments)
+    }
+  }
+}
+
