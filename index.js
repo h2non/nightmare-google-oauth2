@@ -11,6 +11,10 @@ var GOOGLE_OAUTH2_TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 
 var getCode = exports.getCode = function (params, callback) {
   var url = buildUrl(params)
+  
+  if (!params.email || !params.password) {
+    return callback(new Error('Missing required params: email, password'))
+  }
 
   return function (nightmare) {
     startCallbackServer(callback)
@@ -177,4 +181,3 @@ function once(fn) {
     }
   }
 }
-
