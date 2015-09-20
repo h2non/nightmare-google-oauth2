@@ -3,6 +3,7 @@ var request = require('request')
 var omit = require('lodash.omit')
 var parseUrl = require('url').parse
 var decamelize = require('decamelize')
+var prompt = require('prompt');
 
 var PORT = 8488
 var REDIRECT_URI = 'http://localhost:' + PORT
@@ -17,10 +18,11 @@ var getCode = exports.getCode = function (params, callback) {
   }
 
   return function (nightmare) {
-    startCallbackServer(callback)
+    startCallbackServer(callback);
 
     nightmare
       .viewport(800, 1600)
+      .useragent('Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.153 Safari/537.36')
       .goto(url)
       .wait('input[type=email]')
       .type('input[type=email]', params.email)
@@ -30,9 +32,34 @@ var getCode = exports.getCode = function (params, callback) {
       .type('input[type=password]', params.password)
       .click('input[type=submit]')
       .wait()
-      .goto(url)
-      .wait()
-      .exists('#signin-action', handleAccess)
+      .exists('#VerifySmsChallengeLabel', handleSMS);
+
+    function handleSMS (exists) {
+      if (exists) {
+        console.log('SMS Required')
+        nightmare
+          .click('input[type=submit]')
+          .wait();
+
+        //Ask the user to write the code
+        prompt.start();
+        prompt.get(['SMSCode'], function (err, result) {
+          if (err) { return onErr(err); }
+          //Write the code
+          nightmare
+            .type('input[type=text]',result.SMSCode)
+            .click('input[type=submit]')
+            .wait()
+            .goto(url)
+            .wait()
+            .exists('#signin-action', handleAccess);
+        });
+      } else
+        nightmare
+          .goto(url)
+          .wait()
+          .exists('#signin-action', handleAccess);
+    }
 
     function handleAccess(exists) {
       var account = params.useAccount || ''
@@ -119,7 +146,7 @@ function startCallbackServer(callback) {
         server.close()
         callback(new Error('Cannot retrieve the token. Timeout exceeded'))
       }
-    }, 20 * 1000)
+    }, 200 * 1000)
   })
 }
 
