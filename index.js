@@ -24,12 +24,12 @@ var getCode = exports.getCode = function (params, callback) {
       .goto(url)
       .wait('input[type=email]')
       .type('input[type=email]', params.email)
-      .click('input[type=submit]')
-      .wait(500)
+      .click('#next')	  
+      .wait(1000)
       .wait('input[type=password]')
-      .type('input[type=password]', params.password)
-      .click('input[type=submit]')
-      .wait()
+      .type('input[type=password]', params.password)	  
+      .click('#signIn')
+      .wait(2000)	  
       .goto(url)
       .wait()
       .exists('#signin-action', handleAccess)
@@ -114,7 +114,7 @@ function startCallbackServer(callback) {
     if (err) return callback(err)
 
     // be sure we kill the server in case of timeout/error
-    setTimeout(function () {
+    setTimeout(function () {
       if (server) {
         server.close()
         callback(new Error('Cannot retrieve the token. Timeout exceeded'))
