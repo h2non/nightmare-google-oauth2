@@ -1,58 +1,113 @@
-var http = require('http')
-var request = require('request')
-var omit = require('lodash.omit')
-var parseUrl = require('url').parse
-var decamelize = require('decamelize')
+const http = require('http')
+const request = require('request')
+const omit = require('lodash.omit')
+const parseUrl = require('url').parse
+const decamelize = require('decamelize')
 
-var PORT = 8488
-var REDIRECT_URI = 'http://localhost:' + PORT
-var BASE_URL = 'https://accounts.google.com/o/oauth2/auth'
-var GOOGLE_OAUTH2_TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
+const PORT = 8488
+const REDIRECT_URI = 'http://localhost:' + PORT
+const BASE_URL = 'https://accounts.google.com/o/oauth2/auth'
+const GOOGLE_OAUTH2_TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
+const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36'
 
-var getCode = exports.getCode = function (params, callback) {
-  var url = buildUrl(params)
-  
+const getCode = exports.getCode = function (params, callback, onChange) {
+  const url = buildUrl(params)
+
   if (!params.email || !params.password) {
     return callback(new Error('Missing required params: email, password'))
   }
 
   return function (nightmare) {
-    startCallbackServer(callback)
+    startCallbackServer(callback, nightmare)
 
     nightmare
       .viewport(800, 1600)
-      .goto(url)
-      .wait('input[type=email]')
-      .type('input[type=email]', params.email)
-      .click('#next')	  
-      .wait(1000)
-      .wait('input[type=password]')
-      .type('input[type=password]', params.password)	  
-      .click('#signIn')
-      .wait(2000)	  
-      .goto(url)
-      .wait()
-      .exists('#signin-action', handleAccess)
+      .useragent(userAgent)
+      .use(login)
+      .use(challenge)
 
-    function handleAccess(exists) {
-      var account = params.useAccount || ''
+    function login (nightmare) {
+      nightmare
+        .goto(url)
+        .wait('input[type=email]')
+        .type('input[type=email]', params.email)
+        .click('#next')
+        .wait(1000)
+        .wait('input[type=password]')
+        .type('input[type=password]', params.password)
+        .click('#signIn')
+        .wait(2000)
+    }
 
-      if (exists) {
-        nightmare
-          .wait(500)
-          .click('#account-' + account + ' > a')
-      }
+    function challenge (nightmare) {
+      nightmare
+        .exists('#challengeform')
+        .then(function (exists) {
+          if (exists) nightmare.use(doChallenge)
+          else nightmare.use(signIn)
+        })
+    }
 
+    function doChallenge (nightmare) {
+      nightmare
+        .type('input[type=text]', params.verificationEmail)
+        .wait(1000)
+        .click('input[type=submit]')
+        .wait(1000)
+        .exists('input[name=ConfirmPassword]')
+        .then(function (exists) {
+          if (exists) {
+            nightmare.use(assignPassword)
+            nightmare.use(login)
+          } else {
+            nightmare.use(signIn)
+          }
+        })
+    }
+
+    function assignPassword (nightmare) {
+      const newPassword = reverse(params.password)
+      if (onChange) onChange('password', newPassword)
+
+      nightmare
+        .type('input[name=Password]', newPassword)
+        .wait(500)
+        .type('input[name=PasswordConfirm]', newPassword)
+        .wait(500)
+        .click('input[type=submit]')
+        .wait(1000)
+    }
+
+    function signIn (nightmare) {
+      nightmare
+        .goto(url)
+        .wait()
+        .exists('#signin-action')
+        .then(function (exists) {
+          if (exists) nightmare.use(selectAccount)
+          nightmare.use(submit)
+        })
+    }
+
+    function selectAccount (nightmare) {
+      const account = params.useAccount || ''
+      nightmare
+        .wait(500)
+        .click('#account-' + account + ' > a')
+    }
+
+    function submit (nightmare) {
       nightmare
         .wait('#submit_approve_access')
         .wait(1500)
         .click('#submit_approve_access')
-        .wait()
+        .wait(1500)
+        .end(noop)
     }
   }
 }
 
-var getToken = exports.getToken = function (params, callback) {
+const getToken = exports.getToken = function (params, callback) {
   return getCode(params, function (err, code) {
     if (err) return callback(err)
 
@@ -60,7 +115,7 @@ var getToken = exports.getToken = function (params, callback) {
       throw missingParam('clientSecret')
     }
 
-    var values = {
+    const values = {
       code: code,
       client_id: params.clientId,
       client_secret: params.clientSecret,
@@ -75,12 +130,12 @@ var getToken = exports.getToken = function (params, callback) {
       json: true
     }, handler)
 
-    function handler(err, res, tokens) {
+    function handler (err, res, tokens) {
       if (!err && tokens && tokens.expires_in) {
         tokens.expiry_date = ((new Date()).getTime() + (tokens.expires_in * 1000))
         tokens = omit(tokens, 'expires_in')
       }
-      
+
       if (!err && tokens.error) {
         err = new Error(tokens.error_description)
         err.code = tokens.error
@@ -92,14 +147,15 @@ var getToken = exports.getToken = function (params, callback) {
   })
 }
 
-function startCallbackServer(callback) {
+function startCallbackServer (callback, nightmare) {
   callback = once(callback)
 
-  var server = http.createServer(function (req, res) {
+  const server = http.createServer(function (req, res) {
     res.writeHead(200)
     res.end()
 
     server.close()
+    nightmare.end(noop)
     server = null
 
     var query = parseUrl(req.url, true).query
@@ -117,13 +173,14 @@ function startCallbackServer(callback) {
     setTimeout(function () {
       if (server) {
         server.close()
+        nightmare.end(noop)
         callback(new Error('Cannot retrieve the token. Timeout exceeded'))
       }
-    }, 20 * 1000)
+    }, 30 * 1000)
   })
 }
 
-function buildUrl(options) {
+function buildUrl (options) {
   var params = defineDefaultParams(options)
 
   var query = Object.keys(params).map(function (key) {
@@ -133,7 +190,7 @@ function buildUrl(options) {
   return BASE_URL + '?' + query
 }
 
-function defineDefaultParams(params) {
+function defineDefaultParams (params) {
   params = validate(normalize(params))
 
   if (!params.redirect_uri) {
@@ -147,11 +204,11 @@ function defineDefaultParams(params) {
   return omitPrivateParams(params)
 }
 
-function omitPrivateParams(params) {
+function omitPrivateParams (params) {
   return omit(params, 'email', 'password', 'client_secret', 'use_account')
 }
 
-function validate(params) {
+function validate (params) {
   ['email', 'password', 'scope', 'client_id'].forEach(function (name) {
     if (!params[name]) {
       throw missingParam(name)
@@ -160,7 +217,7 @@ function validate(params) {
   return params
 }
 
-function normalize(params) {
+function normalize (params) {
   var buf = {}
   Object.keys(params).forEach(function (key) {
     return buf[decamelize(key)] = params[key]
@@ -168,11 +225,11 @@ function normalize(params) {
   return buf
 }
 
-function missingParam(name) {
+function missingParam (name) {
   return new TypeError('Missing required param: ' + name)
 }
 
-function once(fn) {
+function once (fn) {
   var one = true
   return function () {
     if (one) {
@@ -181,3 +238,9 @@ function once(fn) {
     }
   }
 }
+
+function reverse (str) {
+  return str.split('').reverse().join('')
+}
+
+function noop () {}

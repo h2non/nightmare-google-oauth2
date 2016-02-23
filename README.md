@@ -44,6 +44,7 @@ var NightmareOAuth2 = require('nightmare-google-oauth2')
 - **clientSecret** - Google API Client Secret ID. You can obtain it from the [Google API Console][console]
 - **scope** - Scope permissions URLs separated by spaces. Read more [here](https://developers.google.com/discovery/v1/using#discovery-doc-methods-scopes)
 - **useAccount** - In case of multiple associated Google accounts, define the email of the desired account to use
+- **verificationEmail** - In case that Google asks for the verification email.
 
 #### .getToken(params, callback)
 

@@ -16,7 +16,8 @@ suite('google auth2', function () {
       scope: 'https://www.googleapis.com/auth/youtube',
       clientId: process.env.NIGHTMARE_OAUTH2_CLIENT_ID,
       email: process.env.NIGHTMARE_OAUTH2_EMAIL,
-      password: process.env.NIGHTMARE_OAUTH2_PASSWORD
+      password: process.env.NIGHTMARE_OAUTH2_PASSWORD,
+      verificationEmail: process.env.NIGHTMARE_OAUTH2_VERIFY_EMAIL
     }
 
     NightmareGoogle.getCode(params, function (err, code) {
