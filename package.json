@@ -1,7 +1,7 @@
 {
   "name": "nightmare-google-oauth2",
   "description": "Nightmare plugin to automatically authenticate, authorize and retrieve a fresh OAuth2 token for Google APIs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "repository": "h2non/nightmare-google-oauth2",
   "license": "MIT",
   "author": "Tomas Aparicio",
