@@ -7,7 +7,7 @@ This package was designed to simplify server-to-server tasks automation and avoi
 It provides reliable [programmatic](#programmatic-api) interface which abstracts you about performing any kind of manual steps related to the authentication, authorization and handshake process to obtain a valid OAuth2 token, which is usually done manually from the user in the web browser. 
 It support multiple associated Google accounts as well, selecting the desired one
 
-For nightware-agnostic interface and command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token)
+For nightware-agnostic interface and command-line solution, see [google-oauth2-token](https://github.com/h2non/google-oauth2-token).
 
 ## Installation
 

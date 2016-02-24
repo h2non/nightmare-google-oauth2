@@ -17,12 +17,11 @@
     "merge": "^1.2.0",
     "request": "^2.53.0"
   },
-  "peerDependencies": {
-    "nightmare": "https://github.com/h2non/nightmare.git#master"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "chai": "^2.1.0",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "nightmare": "git+https://github.com/h2non/nightmare.git#master"
   },
   "keywords": [
     "nightmare",
