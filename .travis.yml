@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "0.10"
   - "0.12"
-  - iojs
+  - "4"
+  - stable
 env:
   - CI=1
 before_install:

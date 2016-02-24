@@ -8,6 +8,8 @@ const PORT = 8488
 const REDIRECT_URI = 'http://localhost:' + PORT
 const BASE_URL = 'https://accounts.google.com/o/oauth2/auth'
 const GOOGLE_OAUTH2_TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
+
+const maxTimeout = 2e4
 const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36'
 
 const getCode = exports.getCode = function (params, callback, onChange) {
@@ -107,7 +109,7 @@ const getCode = exports.getCode = function (params, callback, onChange) {
   }
 }
 
-const getToken = exports.getToken = function (params, callback) {
+const getToken = exports.getToken = function (params, callback, onChange) {
   return getCode(params, function (err, code) {
     if (err) return callback(err)
 
@@ -144,7 +146,7 @@ const getToken = exports.getToken = function (params, callback) {
 
       callback(err, tokens)
     }
-  })
+  }, onChange)
 }
 
 function startCallbackServer (callback, nightmare) {
@@ -176,7 +178,7 @@ function startCallbackServer (callback, nightmare) {
         nightmare.end(noop)
         callback(new Error('Cannot retrieve the token. Timeout exceeded'))
       }
-    }, 30 * 1000)
+    }, maxTimeout)
   })
 }
 

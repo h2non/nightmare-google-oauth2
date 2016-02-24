@@ -1,6 +1,6 @@
 # nightmare-google-oauth2 [![Build Status](https://api.travis-ci.org/h2non/nightmare-google-oauth2.svg?branch=master)][travis] [![NPM version](https://img.shields.io/npm/v/nightmare-google-oauth2.svg)][npm]
 
-[Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to be used with [Google APIs](https://developers.google.com/apis-explorer)
+[Nightmare](http://github.com/segmentio/nightmare) plugin to automatically authenticate, authorize and retrieve a fresh [OAuth2](https://developers.google.com/accounts/docs/OAuth2WebServer) token ready to be used with [Google APIs](https://developers.google.com/apis-explorer).
 
 This package was designed to simplify server-to-server tasks automation and avoid headaches when dealing with OAuth, since it is the [unique method](https://developers.google.com/youtube/v3/guides/authentication#OAuth2_Flows) to perform most of the user-related write operations via Google APIs, such as creating a post in Blogspot or uploading a video to YouTube
 
@@ -44,9 +44,9 @@ var NightmareOAuth2 = require('nightmare-google-oauth2')
 - **clientSecret** - Google API Client Secret ID. You can obtain it from the [Google API Console][console]
 - **scope** - Scope permissions URLs separated by spaces. Read more [here](https://developers.google.com/discovery/v1/using#discovery-doc-methods-scopes)
 - **useAccount** - In case of multiple associated Google accounts, define the email of the desired account to use
-- **verificationEmail** - In case that Google asks for the verification email.
+- **verificationEmail** - In case that Google asks for the verification email. Not too common anyway.
 
-#### .getToken(params, callback)
+#### .getToken(params, callback [, onChange ])
 
 Return an `object` with valid OAuth2 tokens ready to be used to call Google APIs endpoints
 
@@ -87,7 +87,6 @@ new Nightmare()
     console.log('OAuth2 refresh token:', tokens.refresh_token)
     console.log('OAuth2 token expiry date:', new Date(tokens.expiry_date))
   }))
-  .run()
 ```
 
 #### .getCode(params, callback)
@@ -119,7 +118,6 @@ new Nightmare()
 
     console.log('OAuth2 code:', code)
   }))
-  .run()
 ```
 
 ## License 

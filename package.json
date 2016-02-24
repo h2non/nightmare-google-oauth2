@@ -1,6 +1,6 @@
 {
   "name": "nightmare-google-oauth2",
-  "description": "Nightmare plugin to automatically authenticate, authorize and retrieve a fresh token for Google APIs using OAuth2",
+  "description": "Nightmare plugin to automatically authenticate, authorize and retrieve a fresh OAuth2 token for Google APIs",
   "version": "0.2.0",
   "repository": "h2non/nightmare-google-oauth2",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "request": "^2.53.0"
   },
   "peerDependencies": {
-    "nightmare": "^2.2.0"
+    "nightmare": "https://github.com/h2non/nightmare.git#master"
   },
   "devDependencies": {
     "chai": "^2.1.0",
