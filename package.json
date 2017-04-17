@@ -15,6 +15,7 @@
     "decamelize": "^1.0.0",
     "lodash.omit": "^3.0.0",
     "merge": "^1.2.0",
+    "prompt": "^0.2.14",
     "request": "^2.53.0"
   },
   "peerDependencies": {},
