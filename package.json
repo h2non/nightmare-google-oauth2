@@ -21,7 +21,7 @@
   "devDependencies": {
     "chai": "^2.1.0",
     "mocha": "^2.1.0",
-    "nightmare": "git+https://github.com/h2non/nightmare.git#master"
+    "nightmare": "^2.10.0"
   },
   "keywords": [
     "nightmare",
